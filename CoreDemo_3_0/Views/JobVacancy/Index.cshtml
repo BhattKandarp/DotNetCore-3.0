@@ -1,0 +1,40 @@
+﻿@model List<CoreDemo_3_0.Entities.JobVacancy>
+@{
+    ViewData["Title"] = "Department List";
+}
+<a href="/Department/ManageDepartment" class="btn btn-primary">Add</a>
+<br />
+<table id="_DataTable" class="table compact table-striped table-bordered nowrap dataTable" aria-describedby="_DataTable_info">
+    <thead>
+        <tr role="row">
+
+            <th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="_DataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Image: activate to sort column descending" style="width: 127px;">Vacancy</th>
+            <th class="sorting" role="columnheader" tabindex="0" aria-controls="_DataTable" rowspan="1" colspan="1" aria-label="Title: activate to sort column ascending" style="width: 209px;">Department</th>
+            <th class="sorting" role="columnheader" tabindex="0" aria-controls="_DataTable" rowspan="1" colspan="1" aria-label="City: activate to sort column ascending" style="width: 116px;">NOF Postion</th>
+            <th class="sorting" role="columnheader" tabindex="0" aria-controls="_DataTable" rowspan="1" colspan="1" aria-label="Vacancy: activate to sort column ascending" style="width: 127px;">Experience</th>
+            <th class="sorting" role="columnheader" tabindex="0" aria-controls="_DataTable" rowspan="1" colspan="1" aria-label="Created Date: activate to sort column ascending" style="width: 190px;">Start Date</th>
+            <th class="sorting" role="columnheader" tabindex="0" aria-controls="_DataTable" rowspan="1" colspan="1" aria-label="Created Date: activate to sort column ascending" style="width: 190px;">End Date</th>
+            <th style="width: 38px;" class="sorting" role="columnheader" tabindex="0" aria-controls="_DataTable" rowspan="1" colspan="1" aria-label=" Action : activate to sort column ascending"> Action </th>
+        </tr>
+    </thead>
+    <tbody role="alert" aria-live="polite" aria-relevant="all">
+        @foreach (var item in Model)
+        {
+        <tr class="even">
+
+            <td style="text-align:left">@item.Vacancy</td>
+            <td style="text-align:left">@item.Department</td>
+            <td style="text-align:left">@item.NoOfPosition</td>
+            <td style="text-align:right">@item.NoOfExperience</td>
+            <td style="text-align:right">@item.StartDate</td>
+            <td style="text-align:right">@item.EndDate</td>
+            <td class="text-center ">
+                <a href="/Department/ManageDepartment?DepartmentId=@item.Id" title="Edit">Edit  <i class="fa fa-edit"></i></a>
+                <a href="/Department/DeleteDepartment?&DepartmentId=@item.Id" class="" onclick="return confirm(" Are you sure you want to delete this job?");" title="Delete">Delete     <i class="fa fa-times"></i></a>
+            </td>
+        </tr>
+
+        }
+
+    </tbody>
+</table>  

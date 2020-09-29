@@ -1,0 +1,34 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model CoreDemo_3_0.Models.DepartmentModel
+@{
+    ViewData["Title"] = "Add Job";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <!-- left column -->
+    <div class="col-md-12">
+        <!-- general form elements -->
+        <div class="box box-primary">
+            <!-- form start -->
+            @using (Html.BeginForm(Model.Id == 0 ? "ManageDepartment" : "ManageDepartment", "Department", FormMethod.Post))
+            {
+                <div class="box-body">
+                    @Html.AntiForgeryToken()
+                    <div class="row">
+                        @Html.HiddenFor(model => model.Id)
+                        <div class="col-xs-12" f>
+                            <label>Job Title</label>
+                            @Html.TextBoxFor(model => model.DepartmentTitle, new { @class = "form-control", @placeholder = "Job Title" })
+                        </div>
+                    </div>
+                    <br />
+                    
+                </div><!-- /.box-body -->
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+                </div>
+            }
+        </div>
+    </div>
+</div> 

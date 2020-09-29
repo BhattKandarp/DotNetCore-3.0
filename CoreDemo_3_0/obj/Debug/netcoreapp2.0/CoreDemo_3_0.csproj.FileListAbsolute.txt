@@ -1,0 +1,3 @@
+D:\AspNetCore\CoreDemo_3_0\CoreDemo_3_0\obj\Debug\netcoreapp2.0\CoreDemo_3_0.csprojAssemblyReference.cache
+D:\AspNetCore\CoreDemo_3_0\CoreDemo_3_0\obj\Debug\netcoreapp2.0\CoreDemo_3_0.AssemblyInfoInputs.cache
+D:\AspNetCore\CoreDemo_3_0\CoreDemo_3_0\obj\Debug\netcoreapp2.0\CoreDemo_3_0.AssemblyInfo.cs

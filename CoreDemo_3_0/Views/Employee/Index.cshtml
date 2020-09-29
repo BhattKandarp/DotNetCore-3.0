@@ -1,0 +1,162 @@
+﻿@model List<CoreDemo_3_0.Entities.Employee>
+@{
+    ViewData["Title"] = "Job List";
+}
+<style>
+    .table-responsive>.table-bordered {
+    border: 1pt #dedede gray !important;
+}
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="table-responsive">
+            <a href="/Employee/Employee" class="btn btn-primary">Add</a>
+            <br />
+
+            <table id="myTable" class="table compact table-striped table-bordered nowrap dataTable" aria-describedby="_DataTable_info">
+                <thead>
+                    <tr role="row">
+                        <th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="_DataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Image: activate to sort column descending" style="width: 127px;">Image</th>
+                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="_DataTable" rowspan="1" colspan="1" aria-label="Title: activate to sort column ascending" style="width: 209px;">Name</th>
+                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="_DataTable" rowspan="1" colspan="1" aria-label="City: activate to sort column ascending" style="width: 116px;">Email</th>
+                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="_DataTable" rowspan="1" colspan="1" aria-label="Vacancy: activate to sort column ascending" style="width: 127px;">Mobile</th>
+                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="_DataTable" rowspan="1" colspan="1" aria-label="Created Date: activate to sort column ascending" style="width: 190px;">DOB</th>
+                        <th style="width: 38px;" class="sorting" role="columnheader" tabindex="0" aria-controls="_DataTable" rowspan="1" colspan="1" aria-label=" Action : activate to sort column ascending"> Action </th>
+                    </tr>
+                </thead>
+                <tbody role="alert" aria-live="polite" aria-relevant="all">
+                    @foreach (var item in Model)
+                    {
+                        <tr class="even">
+                            <td style="text-align:left"><img src="@item.Image" alt="Image" width="50" height="50"></td>
+                            <td style="text-align:left">@item.Firstname @item.Lastname</td>
+                            <td style="text-align:left">@item.Email</td>
+                            <td style="text-align:left">@item.Mobile </td>
+                            <td style="text-align:right">@item.DOB</td>
+                            <td class="text-center ">
+                                <a  href="/Employee/Employee?employeeid=@item.Id" title="Edit">Edit <i class="fa fa-edit"></i></a><a href="/Employee/DeleteEmployee?&EmployeeId=@item.Id" class="" onclick="return confirm(" Are you sure you want to delete this job?");" title="Delete">Delete<i class="fa fa-times"></i></a>
+                            </td>
+                        </tr>
+
+                    }
+
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-12 text-center">
+            <ul class="pagination pagination-lg pager" id="myPager"></ul>
+        </div>
+    </div>
+    </div>
+
+<script>
+    $.fn.pageMe = function(opts){
+    var $this = this,
+        defaults = {
+            perPage: 3,
+            showPrevNext: false,
+            hidePageNumbers: false
+        },
+        settings = $.extend(defaults, opts);
+    
+    var listElement = $this;
+    var perPage = settings.perPage; 
+    var children = listElement.children();
+    var pager = $('.pager');
+    
+    if (typeof settings.childSelector!="undefined") {
+        children = listElement.find(settings.childSelector);
+    }
+    
+    if (typeof settings.pagerSelector!="undefined") {
+        pager = $(settings.pagerSelector);
+    }
+    
+    var numItems = children.size();
+    var numPages = Math.ceil(numItems/perPage);
+
+    pager.data("curr",0);
+    
+    if (settings.showPrevNext){
+        $('<li><a href="#" class="prev_link">«</a></li>').appendTo(pager);
+    }
+    
+    var curr = 0;
+    while(numPages > curr && (settings.hidePageNumbers==false)){
+        $('<li><a href="#" class="page_link">'+(curr+1)+'</a></li>').appendTo(pager);
+        curr++;
+    }
+    
+    if (settings.showPrevNext){
+        $('<li><a href="#" class="next_link">»</a></li>').appendTo(pager);
+    }
+    
+    pager.find('.page_link:first').addClass('active');
+    pager.find('.prev_link').hide();
+    if (numPages<=1) {
+        pager.find('.next_link').hide();
+    }
+      pager.children().eq(1).addClass("active");
+    
+    children.hide();
+    children.slice(0, perPage).show();
+    
+    pager.find('li .page_link').click(function(){
+        var clickedPage = $(this).html().valueOf()-1;
+        goTo(clickedPage,perPage);
+        return false;
+    });
+    pager.find('li .prev_link').click(function(){
+        previous();
+        return false;
+    });
+    pager.find('li .next_link').click(function(){
+        next();
+        return false;
+    });
+    
+    function previous(){
+        var goToPage = parseInt(pager.data("curr")) - 1;
+        goTo(goToPage);
+    }
+     
+    function next(){
+        goToPage = parseInt(pager.data("curr")) + 1;
+        goTo(goToPage);
+    }
+    
+    function goTo(page){
+        var startAt = page * perPage,
+            endOn = startAt + perPage;
+        
+        children.css('display','none').slice(startAt, endOn).show();
+        
+        if (page>=1) {
+            pager.find('.prev_link').show();
+        }
+        else {
+            pager.find('.prev_link').hide();
+        }
+        
+        if (page<(numPages-1)) {
+            pager.find('.next_link').show();
+        }
+        else {
+            pager.find('.next_link').hide();
+        }
+        
+        pager.data("curr",page);
+      	pager.children().removeClass("active");
+        pager.children().eq(page+1).addClass("active");
+    
+    }
+};
+
+$(document).ready(function(){
+    
+  $('#myTable').pageMe({pagerSelector:'#myPager',showPrevNext:true,hidePageNumbers:false,perPage:4});
+    
+});
+</script>
+
